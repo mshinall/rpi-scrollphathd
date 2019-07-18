@@ -46,11 +46,11 @@ def show_msg(msg):
 
 	[bw, bh] = scr.get_buffer_shape()
 	for y in [1, -1, 1]:
-	        for x in range(0, bw-width-1):
-        	        scr.scroll(x=y, y=0)
-                        scr.show()
-                        time.sleep(delay)
-                time.sleep(delay3)
+		for x in range(0, bw-width-1):
+			scr.scroll(x=y, y=0)
+			scr.show()
+			time.sleep(delay)
+			time.sleep(delay3)
 	scr.clear()
 	scr.show()
 
@@ -98,7 +98,7 @@ def draw_trg():
 	global trg_x, trg_x2, trg_y, trg_y2, blt_x, blt_y
 	#print("trg: " + str(trg_x) + "," + str(trg_y))
 	draw_pixel(trg_x2, trg_y2, bright0)
-	
+
 
 
 
@@ -120,7 +120,7 @@ def hide_trg():
 	trg_x = 0
 	trg_y = 0
 	draw_pixel(trg_x, trg_y, bright0)
-	
+
 def exp_trg():
 	global trg_x, trg_y, blt_x, blt_y
 	x = blt_x + 1
@@ -150,7 +150,7 @@ def exp_trg():
 	draw_pixel(x+1, y-1, bright0)
 	draw_pixel(x-1, y+1, bright0)
 	draw_pixel(x+1, y+1, bright0)
-	
+
 	hide_blt()
 
 def rand_trg():
@@ -174,7 +174,7 @@ def handler(button):
 
 @btn.on_press(btn.BUTTON_D, repeat=True, repeat_time=0.15)
 def handler(button, pressed):
-	global shp_y 
+	global shp_y
 	if(shp_y >= height - 1):
 		shp_y = height - 1
 	else:
@@ -220,11 +220,3 @@ try:
 	main_loop()
 except KeyboardInterrupt:
 	exit()
-
-
-
-
-
-
-
-
