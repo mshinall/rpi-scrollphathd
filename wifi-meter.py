@@ -10,27 +10,33 @@ from scrollphathd.fonts import font5x7
 delay = 0.005
 delay2 = delay * 5
 delay3 = delay * 100
+bright0 = 0
 bright = 0.3
+bright1 = bright
 bright2 = bright * 2
-signal = 0
+bright3 = bright * 3
+[width, height] = scr.get_shape()
+signal_high = 0
+signal_low = width-1
 count = 0
 title = "WIFI Signal Meter"
-[width, height] = scr.get_shape()
 
 scr.set_brightness(bright)
 scr.set_font(font=font5x7)
 scr.set_clear_on_exit(value=True)
 
 def winfo():
+	global signal_high, signal_low
 	out = os.popen('echo `iwconfig wlan0 | egrep "ESSID|Link Quality"`').read()
 	m = re.search('^.*ESSID:"([\w.]*)".*Link Quality=(\d*)/(\d*).*$', out)
 	id = m.group(1)
 	n = int(m.group(2))
 	d = int(m.group(3))
 	s = int(interp(n, [0, d], [0, width]))
-	global signal
-	if(s > signal):
-		signal = s
+	if(s > signal_high):
+		signal_high = s
+	if(s < signal_low):
+		signal_low = s
 	#print(id + " " + str(n) + "/" + str(d) + " " + str(s) + "/" + str(width))
 	return [id, s]
 
@@ -68,23 +74,25 @@ def show_ssid():
 	scr.show()
 
 def init_meter():
-	for i in range(0, 17):
+	for i in range(0, 18):
         	scr.fill(brightness=bright, x=0, y=0, width=i, height=height)
-        	scr.fill(brightness=bright2, x=i, y=0, width=1, height=height)
         	scr.show()
         	time.sleep(delay2)
 
+	for j in range(0, 18):
+		scr.fill(brightness=bright0, x=width-j, y=0, width=j, height=height)
+        	scr.show()
+        	time.sleep(delay2)
 
 def main_loop():
 	while True:
-		global count
-		global signal
+		global count, signal_high, signal_low
 		scr.clear()
 		[id, s] = winfo()
-		scr.fill(brightness=bright, x=0, y=0, width=s-1, height=height)
-		scr.fill(brightness=bright2, x=s-1, y=0, width=1, height=height)
-		if(s < signal):
-			scr.fill(brightness=bright, x=signal-1, y=0, width=1, height=height)
+		scr.fill(brightness=bright1, x=0, y=1, width=s-1, height=height-2)
+		scr.fill(brightness=bright3, x=s-1, y=1, width=1, height=height-2)
+		scr.fill(brightness=bright2, x=signal_high-1, y=0, width=1, height=height-1)
+		scr.fill(brightness=bright2, x=signal_low-1, y=1, width=1, height=height-1)
 
 		if(count > 0 and count <=9 ):
 			scr.set_pixel(x=0, y=3, brightness=bright)
