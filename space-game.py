@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import random
 import time
@@ -7,6 +7,7 @@ from scrollphathd.fonts import font5x7
 import buttonshim as btn
 import signal
 import os
+from evdev import InputDevice, categorize, ecodes
 
 delay = 0.005
 delay3 = delay * 100
@@ -35,6 +36,7 @@ scr.set_font(font=font5x7)
 scr.set_clear_on_exit(value=True)
 
 btn.set_pixel(0,0,0)
+gpd = InputDevice('/dev/input/event0')
 
 def show_msg(msg):
 	scr.clear()
@@ -46,8 +48,8 @@ def show_msg(msg):
 	for y in [1, -1, 1]:
 	        for x in range(0, bw-width-1):
         	        scr.scroll(x=y, y=0)
-                	scr.show()
-                	time.sleep(delay)
+                        scr.show()
+                        time.sleep(delay)
                 time.sleep(delay3)
 	scr.clear()
 	scr.show()
@@ -96,7 +98,12 @@ def draw_trg():
 	global trg_x, trg_x2, trg_y, trg_y2, blt_x, blt_y
 	#print("trg: " + str(trg_x) + "," + str(trg_y))
 	draw_pixel(trg_x2, trg_y2, bright0)
-	if(trg_x + trg_y > 0):
+	
+
+
+
+
+if(trg_x + trg_y > 0):
 		if(trg_x < 0):
 			hide_trg()
 		if(blt_x >= trg_x) and (blt_y == trg_y):
@@ -182,6 +189,13 @@ def handler(button, pressed):
 	else:
 		shp_y = shp_y - 1
 	#draw_ship()
+
+async def helper(dev):
+	async for ev in dev.async_read_loop():
+		print(repr(ev))
+
+loop = asyncio.get_event_loop()
+loop.run_forever()
 
 def tick():
 	global c
