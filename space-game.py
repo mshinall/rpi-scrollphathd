@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import random
 import time
@@ -7,9 +7,8 @@ from scrollphathd.fonts import font5x7
 import buttonshim as btn
 import signal
 import os
-from evdev import InputDevice, categorize, ecodes
 
-delay = 0.005
+delay = 0.001
 delay3 = delay * 100
 bright0 = 0.0
 bright = 0.3
@@ -36,7 +35,6 @@ scr.set_font(font=font5x7)
 scr.set_clear_on_exit(value=True)
 
 btn.set_pixel(0,0,0)
-gpd = InputDevice('/dev/input/event0')
 
 def show_msg(msg):
 	scr.clear()
@@ -50,7 +48,7 @@ def show_msg(msg):
 			scr.scroll(x=y, y=0)
 			scr.show()
 			time.sleep(delay)
-			time.sleep(delay3)
+		time.sleep(delay3)
 	scr.clear()
 	scr.show()
 
@@ -99,21 +97,16 @@ def draw_trg():
 	#print("trg: " + str(trg_x) + "," + str(trg_y))
 	draw_pixel(trg_x2, trg_y2, bright0)
 
-
-
-
-
-if(trg_x + trg_y > 0):
+	if(trg_x + trg_y > 0):
 		if(trg_x < 0):
 			hide_trg()
-		if(blt_x >= trg_x) and (blt_y == trg_y):
-			exp_trg()
+		#if(blt_x >= trg_x) and (blt_y == trg_y):
+		#	exp_trg()
 		else:
 			draw_pixel(trg_x, trg_y, bright)
 			trg_x2 = trg_x
 			trg_y2 = trg_y
 			trg_x = trg_x - 1
-
 
 def hide_trg():
 	global trg_x, trg_y
@@ -157,7 +150,7 @@ def rand_trg():
 	global trg_x, trg_y
 	if(trg_x + trg_y == 0):
 		trg_x = width - 1
-		trg_y = random.choice(range(0, 8))
+		trg_y = random.choice(range(0, 7))
 		#print("random:" + str(trg_x) + "," + str(trg_y))
 
 @btn.on_press(btn.BUTTON_A)
@@ -167,11 +160,6 @@ def handler(button, pressed):
 		blt_x = 1
 		blt_y = shp_y
 
-@btn.on_hold(btn.BUTTON_C, hold_time=5)
-def handler(button):
-	show_msg("Shutting Down...")
-	os.system("sudo shutdown -h now")
-
 @btn.on_press(btn.BUTTON_D, repeat=True, repeat_time=0.15)
 def handler(button, pressed):
 	global shp_y
@@ -179,7 +167,6 @@ def handler(button, pressed):
 		shp_y = height - 1
 	else:
 		shp_y = shp_y + 1
-	#draw_ship()
 
 @btn.on_press(btn.BUTTON_E, repeat=True, repeat_time=0.15)
 def handler(button, pressed):
@@ -188,14 +175,6 @@ def handler(button, pressed):
 		shp_y = 0
 	else:
 		shp_y = shp_y - 1
-	#draw_ship()
-
-async def helper(dev):
-	async for ev in dev.async_read_loop():
-		print(repr(ev))
-
-loop = asyncio.get_event_loop()
-loop.run_forever()
 
 def tick():
 	global c
@@ -208,7 +187,7 @@ def main_loop():
 	while True:
 		tick()
 		draw_ship()
-		if(c % 5 == 0):
+		if(c % 4 == 0):
 			rand_trg()
 			draw_trg()
 		draw_blt()
