@@ -26,7 +26,6 @@ count = 0
 
 is_busy = False
 last_func = None
-stop_loop = False
 
 scr.set_brightness(bright)
 scr.set_font(font=font5x7)
@@ -193,9 +192,9 @@ def free():
 def do(func):
 	global last_func
 	if(busy()):
-		#print("busy: " + func.__name__)
+		print("busy: " + func.__name__)
 		return
-	#print("free: " + func.__name__)
+	print("free: " + func.__name__)
 	blink()
 	btn.set_pixel(0, 0, 127)
 	last_func = func
