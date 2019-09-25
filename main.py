@@ -215,10 +215,12 @@ def free():
 def do(func):
 	global last_func
 	global break_loop
-	if(busy()):
+	if break_loop:
+		return
+	if busy():
 		break_loop = True
 		#print("busy: " + func.__name__)
-		#return
+
 	#print("free: " + func.__name__)
 	blink()
 	btn.set_pixel(0, 0, 127)
