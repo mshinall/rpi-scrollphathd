@@ -195,7 +195,8 @@ def do(func):
 	free()
 
 def wifi():
-	global delay = 0.005
+	global delay
+	delay = 0.005
 	show_title("WIFI Signal")
 	wifi_show_title()
 	wifi_show_ssid()
@@ -203,17 +204,20 @@ def wifi():
 	wifi_main_loop()
 
 def tv():
+	global delay
 	delay = 0.000
 	show_title("TV Snow")
 	tv_main_loop()
 
 def strobe():
-	global delay = 0.000
+	global delay
+	delay = 0.000
 	show_title("Strobe Light")
 	str_main_loop()
 
 def bounce():
-	global delay = 0.001
+	global delay
+	delay = 0.001
 	show_title("Bouncing Ball")
 	bnc_main_loop()
 
