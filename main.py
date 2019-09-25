@@ -1,31 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import time
-import scrollphathd as scr
-from scrollphathd.fonts import font5x7
-from time import localtime, strftime
 import buttonshim as btn
 import signal
 import os
-import re
-from numpy import interp
-import geocoder
-import requests
-from bs4 import BeautifulSoup
-import random
 
 import tvsnow
 import wifimeter
 import strobelight
 import bounce
 
-
-[width, height] = scr.get_shape()
-scr.set_brightness(bright)
-scr.set_font(font=font5x7)
-scr.set_clear_on_exit(value=True)
-btn.set_pixel(0, 0, 0)
 is_busy = False
 last_func = None
 
@@ -70,21 +54,31 @@ def do(func):
 	btn.set_pixel(0, 0, 0)
 	free()
 
+def setSigHandlers(module):
+	signal.signal(signal.SIGINT, module.stop())
+	signal.signal(signal.SIGTERM, module.stop())
+	signal.signal(signal.SIGABRT, module.stop());
+	signal.signal(signal.SIGQUIT, module.stop());
+
 def wifi():
+	setSigHandlers(wifimeter)
 	wifimeter.show_title()
 	wifimeter.show_ssid()
 	wifimeter.init_meter()
 	wifimeter.main_loop()
 
 def snow():
+	setSigHandlers(tvsnow)
 	tvsnow.show_title()
 	tvsnow.main_loop()
 
 def strobe():
+	setSigHandlers(strobelight)
 	strobelight.show_title()
 	strobelight.main_loop()
 
 def ball():
+	setSigHandlers(bounce)
 	bounce.show_title()
 	bounce.main_loop()
 
@@ -104,16 +98,7 @@ def handler(button):
 def handler(button):
 	do(wifi)
 
-
-def stop():
-	scr.clear()
-	scr.show()
-
 try:
-	signal.signal(signal.SIGINT, stop)
-	signal.signal(signal.SIGTERM, stop)
-	signal.signal(signal.SIGABRT, stop);
-	signal.signal(signal.SIGQUIT, stop);
 	do(snow)
 	time.sleep(300)
 	while True:

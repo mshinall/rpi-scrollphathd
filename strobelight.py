@@ -45,19 +45,16 @@ def main_loop():
 		d = random.uniform(0.005, 0.02)
 		time.sleep(d)
 
+def stop():
+	scr.clear()
+	scr.show()
+
 try:
 	show_title()
 	main_loop()
 except:
-	scr.clear()
-	scr.show()
+	stop()
 finally:
-	scr.clear()
-	scr.show()
+	stop()
 
-
-
-
-
-
-
+	

@@ -43,34 +43,29 @@ def main_loop():
 	scr.set_pixel(x=x, y=y, brightness=bright)
 	scr.show()
 	time.sleep(delay)
-	
+
 	while True:
 		x = x + xd
 		if(x >= width - 1) or (x <= 0):
 			xd = -xd
-		
+
 		y = y + yd
 		if(y >= height - 1) or (y <= 0):
-			yd = -yd			
-	
+			yd = -yd
+
 		scr.clear()
 		scr.set_pixel(x=x, y=y, brightness=bright)
 		scr.show()
 		time.sleep(delay)
 
+def stop():
+	scr.clear()
+	scr.show()
+
 try:
 	show_title()
 	main_loop()
 except:
-	scr.clear()
-	scr.show()
+	stop()
 finally:
-	scr.clear()
-	scr.show()
-
-
-
-
-
-
-
+	stop()

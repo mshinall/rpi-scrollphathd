@@ -101,10 +101,14 @@ def main_loop():
 			scr.set_pixel(x=0, y=3, brightness=bright2)
 		elif(count >= 19):
 			count = 0
-		count = count + 1	
+		count = count + 1
 
 		scr.show()
 		time.sleep(delay)
+
+def stop():
+	scr.clear()
+	scr.show()
 
 try:
 	show_title()
@@ -112,15 +116,6 @@ try:
 	init_meter()
 	main_loop()
 except:
-	scr.clear()
-	scr.show()
+	stop()
 finally:
-	scr.clear()
-	scr.show()
-
-
-
-
-
-
-
+	stop()
