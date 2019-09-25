@@ -50,17 +50,18 @@ def main_loop():
 
 		scr.show()
 		time.sleep(delay)
+def stop():
+	scr.clear()
+	scr.show()
 
 try:
-	signal.signal(signal.SIGINT, sys.exit(0))
-	signal.signal(signal.SIGTERM, sys.exit(0))
-	signal.signal(signal.SIGABRT, sys.exit(0));
-	signal.signal(signal.SIGQUIT, sys.exit(0));
+	signal.signal(signal.SIGINT, stop)
+	signal.signal(signal.SIGTERM, stop)
+	signal.signal(signal.SIGABRT, stop);
+	signal.signal(signal.SIGQUIT, stop);
 	show_title()
 	main_loop()
 except:
-	scr.clear()
-	scr.show()
+	stop()
 finally:
-	scr.clear()
-	scr.show()
+	stop()
