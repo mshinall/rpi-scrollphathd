@@ -5,7 +5,6 @@ import time
 import scrollphathd as scr
 from scrollphathd.fonts import font5x7
 import buttonshim as btn
-import signal
 
 delay = 0.000
 delay2 = delay * 5
@@ -22,7 +21,7 @@ scr.set_clear_on_exit(value=True)
 
 btn.set_pixel(0,0,0)
 
-def show_title():
+def tv_show_title():
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
 	time.sleep(delay*20)
@@ -37,9 +36,7 @@ def show_title():
 	scr.clear()
 	scr.show()
 
-
-
-def main_loop():
+def tv_main_loop():
 	while True:
 		#scr.clear()
 		g = random.uniform(0.0, 0.2)
@@ -51,14 +48,12 @@ def main_loop():
 		scr.show()
 		time.sleep(delay)
 
-def stop():
-	scr.clear()
-	scr.show()
-
 try:
 	show_title()
 	main_loop()
 except:
-	stop()
+	scr.clear()
+	scr.show()
 finally:
-	stop()
+	scr.clear()
+	scr.show()

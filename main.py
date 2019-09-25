@@ -99,7 +99,7 @@ def handler(button):
 	do(wifi)
 
 try:
-	do(snow)
+	do(bounce)
 	time.sleep(300)
 	while True:
 		do(last_func)

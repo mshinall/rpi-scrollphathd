@@ -58,14 +58,12 @@ def main_loop():
 		scr.show()
 		time.sleep(delay)
 
-def stop():
-	scr.clear()
-	scr.show()
-
 try:
 	show_title()
 	main_loop()
 except:
-	stop()
+	scr.clear()
+	scr.show()
 finally:
-	stop()
+	scr.clear()
+	scr.show()
