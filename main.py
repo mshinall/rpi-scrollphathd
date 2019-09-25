@@ -26,6 +26,13 @@ count = 0
 
 is_busy = False
 last_func = None
+stop_loop = False
+
+scr.set_brightness(bright)
+scr.set_font(font=font5x7)
+scr.set_clear_on_exit(value=True)
+
+btn.set_pixel(0,0,0)
 
 wth_summary_map = {
 	"snow":                "Snow",
@@ -155,6 +162,7 @@ def bnc_main_loop():
 		scr.set_pixel(x=x, y=y, brightness=bright)
 		scr.show()
 		time.sleep(delay)
+
 def str_main_loop():
 	while True:
 		scr.clear()
@@ -172,6 +180,7 @@ def busy():
 		return True
 	else:
 		is_busy = True
+		stop_loop = True
 		return False
 
 def free():
