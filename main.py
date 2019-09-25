@@ -235,10 +235,10 @@ def handler(button):
 
 try:
 	do(bounce)
-	time.sleep(300)
-	while True:
-		do(last_func)
-		time.sleep(300)
+	#time.sleep(300)
+	#while True:
+	#	do(last_func)
+	#	time.sleep(300)
 	#signal.pause()
 except:
 	scr.clear()
