@@ -26,6 +26,7 @@ count = 0
 
 is_busy = False
 last_func = None
+break_loop = False
 
 scr.set_brightness(bright)
 scr.set_font(font=font5x7)
@@ -50,7 +51,7 @@ def blink():
 	btn.set_pixel(0,127,0)
         time.sleep(0.1)
         btn.set_pixel(0,0,0)
-		
+
 def show_title(title):
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
@@ -67,7 +68,11 @@ def show_title(title):
 	scr.show()
 
 def tv_main_loop():
+	global break_loop
 	while True:
+		if break_loop:
+			break_loop = False;
+			break;
 		#scr.clear()
 		g = random.uniform(0.0, 0.2)
 		for x in range(width):
@@ -123,7 +128,11 @@ def wifi_init_meter():
         	time.sleep(delay2)
 
 def wifi_main_loop():
+	global break_loop
 	while True:
+		if break_loop:
+			break_loop = False;
+			break;
 		global count, signal_high, signal_low
 		scr.clear()
 		[id, s] = wifi_info()
@@ -145,6 +154,7 @@ def wifi_main_loop():
 		time.sleep(delay)
 
 def bnc_main_loop():
+	global break_loop
 	x = 0
 	y = 0
 	xd = 1
@@ -155,6 +165,9 @@ def bnc_main_loop():
 	time.sleep(delay)
 
 	while True:
+		if break_loop:
+			break_loop = False;
+			break;
 		x = x + xd
 		if(x >= width - 1) or (x <= 0):
 			xd = -xd
@@ -169,7 +182,11 @@ def bnc_main_loop():
 		time.sleep(delay)
 
 def str_main_loop():
+	global break_loop
 	while True:
+		if break_loop:
+			break_loop = False;
+			break;
 		scr.clear()
 		scr.show()
 		d = random.uniform(0.005, 0.02)
@@ -197,10 +214,12 @@ def free():
 
 def do(func):
 	global last_func
+	global break_loop
 	if(busy()):
-		print("busy: " + func.__name__)
-		return
-	print("free: " + func.__name__)
+		break_loop = True
+		#print("busy: " + func.__name__)
+		#return
+	#print("free: " + func.__name__)
 	blink()
 	btn.set_pixel(0, 0, 127)
 	last_func = func
