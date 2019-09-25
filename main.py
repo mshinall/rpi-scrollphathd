@@ -69,7 +69,7 @@ def do(func):
 	func()
 	btn.set_pixel(0, 0, 0)
 	free()
-	
+
 def wifi():
 	wifimeter.show_title()
 	wifimeter.show_ssid()
@@ -104,8 +104,16 @@ def handler(button):
 def handler(button):
 	do(wifi)
 
+
+def stop():
+	scr.clear()
+	scr.show()
+
 try:
-	#do(clock)
+	signal.signal(signal.SIGINT, stop)
+	signal.signal(signal.SIGTERM, stop)
+	signal.signal(signal.SIGABRT, stop);
+	signal.signal(signal.SIGQUIT, stop);
 	do(snow)
 	time.sleep(300)
 	while True:

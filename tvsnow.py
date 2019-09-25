@@ -50,15 +50,8 @@ def main_loop():
 
 		scr.show()
 		time.sleep(delay)
-def stop():
-	scr.clear()
-	scr.show()
 
 try:
-	signal.signal(signal.SIGINT, stop)
-	signal.signal(signal.SIGTERM, stop)
-	signal.signal(signal.SIGABRT, stop);
-	signal.signal(signal.SIGQUIT, stop);
 	show_title()
 	main_loop()
 except:
