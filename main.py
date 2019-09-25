@@ -180,7 +180,6 @@ def busy():
 		return True
 	else:
 		is_busy = True
-		stop_loop = True
 		return False
 
 def free():
@@ -190,6 +189,7 @@ def free():
 		return False
 	else:
 		return True
+
 def do(func):
 	global last_func
 	if(busy()):
@@ -240,11 +240,7 @@ def handler(button):
 
 try:
 	do(bounce)
-	#time.sleep(300)
-	#while True:
-	#	do(last_func)
-	#	time.sleep(300)
-	#signal.pause()
+	signal.pause()
 except:
 	scr.clear()
 	scr.show()
