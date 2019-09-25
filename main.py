@@ -42,6 +42,34 @@ wth_summary_map = {
 	"wind":                "Wind"
 }
 
+def busy():
+	global is_busy
+	if(is_busy):
+		return True
+	else:
+		is_busy = True
+		return False
+
+def free():
+	global is_busy
+	if(is_busy):
+		is_busy = False
+		return False
+	else:
+		return True
+def do(func):
+	global last_func
+	if(busy()):
+		#print("busy: " + func.__name__)
+		return
+	#print("free: " + func.__name__)
+	blink()
+	btn.set_pixel(0, 0, 127)
+	last_func = func
+	func()
+	btn.set_pixel(0, 0, 0)
+	free()
+	
 def wifi():
 	wifimeter.show_title()
 	wifimeter.show_ssid()
@@ -78,7 +106,7 @@ def handler(button):
 
 try:
 	#do(clock)
-	do(image)
+	do(snow)
 	time.sleep(300)
 	while True:
 		do(last_func)
