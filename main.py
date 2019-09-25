@@ -45,6 +45,12 @@ wth_summary_map = {
 	"clear-night":         "Clear",
 	"wind":                "Wind"
 }
+
+def blink():
+	btn.set_pixel(0,127,0)
+        time.sleep(0.1)
+        btn.set_pixel(0,0,0)
+		
 def show_title(title):
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
