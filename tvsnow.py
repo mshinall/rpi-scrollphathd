@@ -21,7 +21,7 @@ scr.set_clear_on_exit(value=True)
 
 btn.set_pixel(0,0,0)
 
-def tv_show_title():
+def show_title(title):
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
 	time.sleep(delay*20)

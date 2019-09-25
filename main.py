@@ -241,4 +241,6 @@ try:
 		time.sleep(300)
 	#signal.pause()
 except:
+	scr.clear()
+	scr.show()
 	exit()
