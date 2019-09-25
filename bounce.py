@@ -19,7 +19,7 @@ scr.set_brightness(bright)
 scr.set_font(font=font5x7)
 scr.set_clear_on_exit(value=True)
 
-def show_title():
+def bnc_show_title():
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
 	time.sleep(delay*20)
@@ -34,7 +34,7 @@ def show_title():
 	scr.clear()
 	scr.show()
 
-def main_loop():
+def bnc_main_loop():
 	x = 0
 	y = 0
 	xd = 1
@@ -59,8 +59,8 @@ def main_loop():
 		time.sleep(delay)
 
 try:
-	show_title()
-	main_loop()
+	bnc_show_title()
+	bnc_main_loop()
 except:
 	scr.clear()
 	scr.show()

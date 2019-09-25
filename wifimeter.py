@@ -25,7 +25,7 @@ scr.set_brightness(bright)
 scr.set_font(font=font5x7)
 scr.set_clear_on_exit(value=True)
 
-def winfo():
+def wifi_info():
 	global signal_high, signal_low
 	out = os.popen('echo `iwconfig wlan0 | egrep "ESSID|Link Quality"`').read()
 	m = re.search('^.*ESSID:"([\w.]*)".*Link Quality=(\d*)/(\d*).*$', out)
@@ -40,7 +40,7 @@ def winfo():
 	#print(id + " " + str(n) + "/" + str(d) + " " + str(s) + "/" + str(width))
 	return [id, s]
 
-def show_title():
+def wifi_show_title():
 	scr.write_string(title, x=0, y=0, brightness=bright)
 	scr.show()
 	time.sleep(delay*20)
@@ -55,8 +55,8 @@ def show_title():
 	scr.clear()
 	scr.show()
 
-def show_ssid():
-	[id, s] = winfo()
+def wifi_show_ssid():
+	[id, s] = wifi_info()
 	scr.write_string(id, x=0, y=0, brightness=bright)
 	scr.show()
 	time.sleep(delay3)
@@ -73,7 +73,7 @@ def show_ssid():
 	scr.clear()
 	scr.show()
 
-def init_meter():
+def wifi_init_meter():
 	for i in range(0, 18):
         	scr.fill(brightness=bright, x=0, y=0, width=i, height=height)
         	scr.show()
@@ -84,11 +84,11 @@ def init_meter():
         	scr.show()
         	time.sleep(delay2)
 
-def main_loop():
+def wifi_main_loop():
 	while True:
 		global count, signal_high, signal_low
 		scr.clear()
-		[id, s] = winfo()
+		[id, s] = wifi_info()
 		scr.fill(brightness=bright1, x=0, y=1, width=s-1, height=height-2)
 		scr.fill(brightness=bright3, x=s-1, y=1, width=1, height=height-2)
 		scr.fill(brightness=bright2, x=signal_high-1, y=0, width=1, height=height-1)
@@ -107,10 +107,10 @@ def main_loop():
 		time.sleep(delay)
 
 try:
-	show_title()
-	show_ssid()
-	init_meter()
-	main_loop()
+	wifi_show_title()
+	wifi_show_ssid()
+	wifi_init_meter()
+	wifi_main_loop()
 except:
 	scr.clear()
 	scr.show()

@@ -49,8 +49,8 @@ def tv_main_loop():
 		time.sleep(delay)
 
 try:
-	show_title()
-	main_loop()
+	tv_show_title()
+	tv_main_loop()
 except:
 	scr.clear()
 	scr.show()
