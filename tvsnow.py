@@ -5,6 +5,7 @@ import time
 import scrollphathd as scr
 from scrollphathd.fonts import font5x7
 import buttonshim as btn
+import signal
 
 delay = 0.000
 delay2 = delay * 5
@@ -36,6 +37,8 @@ def show_title():
 	scr.clear()
 	scr.show()
 
+
+
 def main_loop():
 	while True:
 		#scr.clear()
@@ -44,11 +47,15 @@ def main_loop():
 			for y in range(height):
 				b = random.uniform(0.2, 0.5)
 				scr.set_pixel(x=x, y=y, brightness=b+g)
-	
+
 		scr.show()
 		time.sleep(delay)
 
 try:
+	signal.signal(signal.SIGINT, sys.exit(0))
+	signal.signal(signal.SIGTERM, sys.exit(0))
+	signal.signal(signal.SIGABRT, sys.exit(0));
+	signal.signal(signal.SIGQUIT, sys.exit(0));
 	show_title()
 	main_loop()
 except:
@@ -57,10 +64,3 @@ except:
 finally:
 	scr.clear()
 	scr.show()
-
-
-
-
-
-
-
