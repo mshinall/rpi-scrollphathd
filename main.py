@@ -6,6 +6,7 @@ import random
 import re
 import signal
 import time
+from threading import Thread
 from numpy import interp
 import buttonshim as btn
 import scrollphathd as scr
@@ -27,6 +28,8 @@ count = 0
 is_busy = False
 last_func = None
 break_loop = False
+
+threads = []
 
 scr.set_brightness(bright)
 scr.set_font(font=font5x7)
@@ -53,7 +56,7 @@ def blink():
         btn.set_pixel(0,0,0)
 
 def show_title(title):
-	scr.write_string(title, x=0, y=0, brightness=bright)
+	scr.write_string(title, x=0, y=0, brightness=bright2)
 	scr.show()
 	time.sleep(delay*20)
 
@@ -68,11 +71,9 @@ def show_title(title):
 	scr.show()
 
 def tv_main_loop():
-	global break_loop
 	while True:
 		if break_loop:
-			break_loop = False;
-			break;
+			break
 		#scr.clear()
 		g = random.uniform(0.0, 0.2)
 		for x in range(width):
@@ -86,7 +87,7 @@ def tv_main_loop():
 def wifi_info():
 	global signal_high, signal_low
 	out = os.popen('echo `iwconfig wlan0 | egrep "ESSID|Link Quality"`').read()
-	m = re.search('^.*ESSID:"([\w.]*)".*Link Quality=(\d*)/(\d*).*$', out)
+	m = re.search('^.*ESSID:"([\w.-]*)".*Link Quality=(\d*)/(\d*).*$', out)
 	id = m.group(1)
 	n = int(m.group(2))
 	d = int(m.group(3))
@@ -128,11 +129,9 @@ def wifi_init_meter():
         	time.sleep(delay2)
 
 def wifi_main_loop():
-	global break_loop
 	while True:
 		if break_loop:
-			break_loop = False;
-			break;
+			break
 		global count, signal_high, signal_low
 		scr.clear()
 		[id, s] = wifi_info()
@@ -154,20 +153,17 @@ def wifi_main_loop():
 		time.sleep(delay)
 
 def bnc_main_loop():
-	global break_loop
 	x = 0
 	y = 0
 	xd = 1
 	yd = 1
 	scr.clear()
-	scr.set_pixel(x=x, y=y, brightness=bright)
+	scr.set_pixel(x=x, y=y, brightness=bright2)
 	scr.show()
 	time.sleep(delay)
-
 	while True:
 		if break_loop:
-			break_loop = False;
-			break;
+			break
 		x = x + xd
 		if(x >= width - 1) or (x <= 0):
 			xd = -xd
@@ -177,16 +173,14 @@ def bnc_main_loop():
 			yd = -yd
 
 		scr.clear()
-		scr.set_pixel(x=x, y=y, brightness=bright)
+		scr.set_pixel(x=x, y=y, brightness=bright2)
 		scr.show()
 		time.sleep(delay)
 
 def str_main_loop():
-	global break_loop
 	while True:
 		if break_loop:
-			break_loop = False;
-			break;
+			break
 		scr.clear()
 		scr.show()
 		d = random.uniform(0.005, 0.02)
@@ -198,7 +192,7 @@ def str_main_loop():
 
 def busy():
 	global is_busy
-	if(is_busy):
+	if is_busy:
 		return True
 	else:
 		is_busy = True
@@ -206,32 +200,45 @@ def busy():
 
 def free():
 	global is_busy
-	if(is_busy):
+	if is_busy:
 		is_busy = False
 		return False
 	else:
 		return True
 
+def startProc(func):
+	process = Thread(target=func)
+	process.start()
+	threads.append(process)
+
+def stopProcs():
+	global threads
+	global break_loop
+	break_loop = True
+	for process in threads:
+		threads.remove(process)
+		process.join()
+	break_loop = False
+
 def do(func):
 	global last_func
 	global break_loop
-	if break_loop:
-		return
 	if busy():
-		break_loop = True
+		return
 		#print("busy: " + func.__name__)
-
 	#print("free: " + func.__name__)
 	blink()
 	btn.set_pixel(0, 0, 127)
 	last_func = func
-	func()
+	stopProcs()
+	scr.clear()
+	scr.show()
+	startProc(func)
 	btn.set_pixel(0, 0, 0)
 	free()
 
 def wifi():
 	show_title("WIFI Signal")
-	wifi_show_title()
 	wifi_show_ssid()
 	wifi_init_meter()
 	wifi_main_loop()
