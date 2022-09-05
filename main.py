@@ -52,8 +52,8 @@ wth_summary_map = {
 
 def blink():
 	btn.set_pixel(0,127,0)
-        time.sleep(0.1)
-        btn.set_pixel(0,0,0)
+	time.sleep(0.1)
+	btn.set_pixel(0,0,0)
 
 def show_title(title):
 	scr.write_string(title, x=0, y=0, brightness=bright2)
@@ -62,11 +62,11 @@ def show_title(title):
 
 	[bw, bh] = scr.get_buffer_shape()
 	for y in [1, -1]:
-	        for x in range(0, bw-width-1):
-        	        scr.scroll(x=y, y=0)
-                	scr.show()
-                	time.sleep(delay)
-                time.sleep(delay3)
+		for x in range(0, bw-width-1):
+			scr.scroll(x=y, y=0)
+			scr.show()
+			time.sleep(delay)
+		time.sleep(delay3)
 	scr.clear()
 	scr.show()
 
@@ -119,14 +119,14 @@ def wifi_show_ssid():
 
 def wifi_init_meter():
 	for i in range(0, 18):
-        	scr.fill(brightness=bright, x=0, y=0, width=i, height=height)
-        	scr.show()
-        	time.sleep(delay2)
+		scr.fill(brightness=bright, x=0, y=0, width=i, height=height)
+		scr.show()
+		time.sleep(delay2)
 
 	for j in range(0, 18):
 		scr.fill(brightness=bright0, x=width-j, y=0, width=j, height=height)
-        	scr.show()
-        	time.sleep(delay2)
+		scr.show()
+		time.sleep(delay2)
 
 def wifi_main_loop():
 	while True:
